@@ -1,0 +1,8 @@
+{
+  "name": "CoreLens",
+  "description": "Bitcoin Core node telemetry monitor, JSON-RPC client, Bech32/Base58Check codec, read-only raw transaction hex inspector, and chain parameter reference.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

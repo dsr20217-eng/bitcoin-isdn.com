@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CoreLens</string>
+    <string name="nav_node">Node</string>
+    <string name="nav_codec">Codec</string>
+    <string name="nav_tx">Tx Hex</string>
+    <string name="nav_chains">Chains</string>
+    <string name="hero_banner_desc">Bitcoin Core protocol network telemetry visualization</string>
+</resources>
