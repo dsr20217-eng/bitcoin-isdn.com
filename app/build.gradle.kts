@@ -19,10 +19,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("${rootDir}/debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
+            storeFile = file("${rootDir}/release.keystore")
+            storePassword = System.getenv("RELEASE_STORE_PASSWORD") ?: "CrL9!vX2#kP8mQ4zW7nB5tR"
+            keyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: "corelens-release"
+            keyPassword = System.getenv("RELEASE_KEY_PASSWORD") ?: "CrL9!vX2#kP8mQ4zW7nB5tR"
         }
         create("debugConfig") {
             storeFile = file("${rootDir}/debug.keystore")
