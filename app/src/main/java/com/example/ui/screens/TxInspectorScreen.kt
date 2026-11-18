@@ -20,7 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.CallSplit
 import androidx.compose.material.icons.outlined.DataObject
-import androidx.compose.material.icons.outlined.ReceiptLong
+import androidx.compose.material.icons.automirrored.outlined.ReceiptLong
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -71,7 +71,7 @@ fun TxInspectorScreen(
                 SectionHeader(
                     title = "Read-Only Raw Tx Hex Inspector",
                     subtitle = "Ported from bitcoin-tx.cpp & core_read.cpp (no key storage or signing)",
-                    icon = Icons.Outlined.ReceiptLong
+                    icon = Icons.AutoMirrored.Outlined.ReceiptLong
                 )
             }
 

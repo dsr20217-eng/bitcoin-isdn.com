@@ -17,7 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material.icons.outlined.Dns
-import androidx.compose.material.icons.outlined.Rule
+import androidx.compose.material.icons.automirrored.outlined.Rule
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
@@ -243,7 +243,7 @@ fun ChainSpecsScreen(
                 SectionHeader(
                     title = "Consensus Constants",
                     subtitle = "src/consensus/consensus.h & amount.h",
-                    icon = Icons.Outlined.Rule
+                    icon = Icons.AutoMirrored.Outlined.Rule
                 )
             }
 

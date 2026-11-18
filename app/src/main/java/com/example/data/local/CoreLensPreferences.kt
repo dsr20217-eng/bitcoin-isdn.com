@@ -17,8 +17,8 @@ data class AutoSavedSettings(
     val lastRpcHost: String = "http://127.0.0.1",
     val lastRpcPort: Int = 8332,
     val lastChainId: String = "main",
-    val customDomain: String = "telemetry.example.org",
-    val senderEmail: String = "dispatch@telemetry.example.org",
+    val customDomain: String = "corelens.local",
+    val senderEmail: String = "dispatch@corelens.local",
     val recipientEmail: String = "",
     val autoSaveHistory: Boolean = true
 )
@@ -40,8 +40,8 @@ class CoreLensPreferences(private val context: Context) {
             lastRpcHost = prefs[Keys.LAST_RPC_HOST] ?: "http://127.0.0.1",
             lastRpcPort = prefs[Keys.LAST_RPC_PORT] ?: 8332,
             lastChainId = prefs[Keys.LAST_CHAIN_ID] ?: "main",
-            customDomain = prefs[Keys.CUSTOM_DOMAIN] ?: "telemetry.example.org",
-            senderEmail = prefs[Keys.SENDER_EMAIL] ?: "dispatch@telemetry.example.org",
+            customDomain = prefs[Keys.CUSTOM_DOMAIN] ?: "corelens.local",
+            senderEmail = prefs[Keys.SENDER_EMAIL] ?: "dispatch@corelens.local",
             recipientEmail = prefs[Keys.RECIPIENT_EMAIL] ?: "",
             autoSaveHistory = prefs[Keys.AUTO_SAVE_HISTORY] ?: true
         )

@@ -32,8 +32,8 @@ enum class DispatchSubTab(val label: String) {
 data class DispatchUiState(
     val activeTab: DispatchSubTab = DispatchSubTab.OUTBOX_INBOX,
     val showInboxOnly: Boolean = false,
-    val customDomain: String = "telemetry.example.org",
-    val senderEmail: String = "dispatch@telemetry.example.org",
+    val customDomain: String = "corelens.local",
+    val senderEmail: String = "dispatch@corelens.local",
     val recipientEmail: String = "",
     val subject: String = "CoreLens Protocol Report",
     val webhookUrl: String = "",
