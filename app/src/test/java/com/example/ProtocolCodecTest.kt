@@ -3,6 +3,7 @@ package com.example
 import com.example.core.Base58Codec
 import com.example.core.Bech32Codec
 import com.example.core.BitcoinCrypto
+import com.example.core.BlockchainDirectory
 import com.example.core.ChainSpecsRepository
 import com.example.core.RawTxParser
 import org.junit.Assert.assertEquals
@@ -67,5 +68,17 @@ class ProtocolCodecTest {
             "00000000ffff0000000000000000000000000000000000000000000000000000",
             genesis.targetHex
         )
+    }
+
+    @Test
+    fun testBlockchainDirectorySpecsAZ() {
+        val networks = BlockchainDirectory.networksAZ
+        assertTrue(networks.size >= 20)
+        assertEquals(networks.map { it.name.lowercase() }.sorted(), networks.map { it.name.lowercase() })
+        assertTrue(networks.all { it.probeMethod.isNotBlank() && it.chainIdentifier.isNotBlank() })
+
+        val tokens = BlockchainDirectory.tokenStandardsAZ
+        assertTrue(tokens.size >= 10)
+        assertEquals(tokens.size, tokens.map { it.standard }.distinct().size)
     }
 }

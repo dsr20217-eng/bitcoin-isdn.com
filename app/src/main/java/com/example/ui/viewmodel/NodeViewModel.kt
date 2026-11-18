@@ -1,14 +1,17 @@
 package com.example.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.core.BitcoinChain
+import com.example.data.local.CoreLensPreferences
 import com.example.data.rpc.BitcoinRpcClient
 import com.example.data.rpc.NodeTelemetryBundle
 import com.example.data.rpc.RpcConnectionConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -29,9 +32,9 @@ sealed interface RpcConsoleState {
 data class NodeUiState(
     val config: RpcConnectionConfig = RpcConnectionConfig(),
     val telemetryState: TelemetryLoadState = TelemetryLoadState.Idle,
-    val netinfoLevel: Int = 4, // 0..4 matching bitcoin-cli -netinfo levels
+    val netinfoLevel: Int = 4,
     val outboundOnly: Boolean = false,
-    val activeSubTab: Int = 0, // 0 = Telemetry & Peers, 1 = Read-Only RPC Console
+    val activeSubTab: Int = 0,
     val rpcMethodInput: String = "getblockchaininfo",
     val rpcParamsInput: String = "",
     val rpcConsoleState: RpcConsoleState = RpcConsoleState.Idle,
@@ -39,11 +42,30 @@ data class NodeUiState(
 )
 
 class NodeViewModel(
+    private val preferences: CoreLensPreferences? = null,
     private val rpcClient: BitcoinRpcClient = BitcoinRpcClient()
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NodeUiState())
     val uiState: StateFlow<NodeUiState> = _uiState.asStateFlow()
+
+    init {
+        if (preferences != null) {
+            viewModelScope.launch {
+                val saved = preferences.settingsFlow.first()
+                val chain = BitcoinChain.entries.find { it.id == saved.lastChainId } ?: BitcoinChain.MAINNET
+                _uiState.update {
+                    it.copy(
+                        config = it.config.copy(
+                            hostUrl = saved.lastRpcHost,
+                            port = saved.lastRpcPort,
+                            chain = chain
+                        )
+                    )
+                }
+            }
+        }
+    }
 
     fun setSubTab(index: Int) {
         _uiState.update { it.copy(activeSubTab = index) }
@@ -81,18 +103,10 @@ class NodeViewModel(
                 showConnectionDialog = false
             )
         }
-        refreshTelemetry()
-    }
-
-    fun selectChainPreset(chain: BitcoinChain) {
-        _uiState.update { state ->
-            state.copy(
-                config = state.config.copy(
-                    chain = chain,
-                    port = chain.rpcPort
-                )
-            )
+        viewModelScope.launch {
+            preferences?.saveRpcEndpoint(hostUrl.trim(), port, chain.id)
         }
+        refreshTelemetry()
     }
 
     fun refreshTelemetry() {
@@ -136,6 +150,13 @@ class NodeViewModel(
                         it.copy(rpcConsoleState = RpcConsoleState.Error(err.message ?: "RPC execution failed"))
                     }
                 }
+        }
+    }
+
+    class Factory(private val preferences: CoreLensPreferences) : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return NodeViewModel(preferences = preferences) as T
         }
     }
 }
